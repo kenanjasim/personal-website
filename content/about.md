@@ -4,32 +4,70 @@ title = "About"
 
 ## Profile
 
-Experienced software engineer specializing in open-source cloud infrastructure tools and IoT platforms. Background in electronic engineering, graduating top of class in electronic engineering from King's College London. Architected, developed and maintained IoT platforms, cloud infrastructure (IAAC), and distributed, highly scalable applications hosted in Kubernetes. Proven to be a keen problem solver who is extremely quick to learn and apply new technologies. Highly effective and reliable team player, particularly in fast paced development environments.
+Experienced software engineer with 5+ years of experience in software development, with a focus on backend and cloud technologies. I have a Background in electronic engineering, graduating top of class in electronic engineering from King's College London. Architected, developed and maintained IoT platforms, cloud infrastructure (IAAC), and distributed, highly scalable, and clean applications hosted in Kubernetes. Proven to be a keen problem solver who is extremely quick to learn and apply new technologies. Highly effective and reliable team player, particularly in fast paced development environments.
 
-## Skills
+## Work Experience
 
-### Software Engineering
+### Senior Software Engineer - Crypto Quantique
 
-I pride myself in writing clean, maintainable and tested code. I have shown this proficieincy through multiple projects both profesionally and personally. I am proficient in: Python, Golang and Bash and have good experience developing in Typescript (React frontend) and C
+*Senior Software Engineer: May 2023 – Present, Software Engineer: June 2022 - May 2023*
 
-### Cloud and DevOps
+Developed a distributed universal IoT platform focused on secure onboarding and device management
 
-Through multiple deliverables I have demonstrated experience and profficiency in cloud computing and devops. I am proficient in using Kubernetes, Docker, Ansible, Jenkins, Git and Terraform and have good experience with Openstack and public cloud concepts.
+* Senior backend engineer developing a distributed system across Python (Django) and Golang  with a MongoDB database deployed on AWS and Azure.
+* Led the design, planning and implementation of new services, including creating features and user stories for said projects
+* Improved the maintainability, performance and reliability of legacy codebases. Led initiatives to improve code quality in the team, such as onboarding projects into SonarQube.
+* Designed and implemented complex functionality involving MQTT, firmware updates, interfacing with HSMs and highly threaded virtual devices.
+* Worked closely across teams to push for better infrastructure, cleaner architecture, better coding practices and standards. 
+* Took on the responsibility of onboarding, training and mentoring members of the team.
 
-### Machine Learning
+### Software Engineer - Konica Minolta
 
-Machine learning is one of my main interests. I researched and implemented a machine learning project in my final year of university. I am also very interested in reading the latest uses of machine learning in the medical field.
+*Oct 2020 – Jun 2022*
 
-### Systems Engineering/IoT
+Researched and developed a distributed cloud infrastructure platform with application to IoT management, automated cloud deployment and orchestration.
+* Researched and developed a cloud native architecture for a cloud IoT platform which has the ability to detect and connect remote devices to cloud hosted virtual machines.
+* Developed and implemented a network scanner, backend REST API, frontend GUI and command line. Utilised linux networking (VxLAN) and a VPN to allow device detection across physical networks.
+* Designed and presented remote device detection with the aim of collaboration with an internal client.
 
-Previously engineered an unattended system which was inaccessable to any engineers. Safe power delivery and redundancies for important components meant that the system was consistent and continued returning data even during the harshest conditions.
+#### Hybrid Cloud Developer (Internship) - Konica Minolta 
+
+*Mar 2020 – Aug 2020*
+ 
+Researched hybrid cloud automation through cloud bursting with the aim of securing funding for its use in distributed manufacturing for off-site construction.
+
+### Full Stack Developer/Electronic Engineer - Sirius Insight.AI
+
+*Mar 2019 – Oct 2019*
+
+Worked in a team to create a system of sensors which would be used to increase maritime intelligence. Worked to deadlines in an agile environment.
+* Designed and built an unattended multi-sensory system including AIS, radar and WiFi sensors along with ensuring safe power delivery.
+* Developed and implemented reliable data retrieval, backend REST API and frontend for data presentation.
+
+### Teaching Assistant - King’s College London 
+*Sept 2019 – Dec 2019*
+
+Supported in the delivery of first-year undergraduate labs. Supervised practical work, providing students with feedback on their methods.
+
+### Refugee Casework Volunteer - British Red Cross
+
+*Jan 2019 - Jan 2021*
+
+Assist asylum seekers and refugees with issues such as asylum support, destitution support, general advice and family reunion.
 
 
-## Interests
+## Education
 
-* 🌍 I am bi-lingual, I can speak Arabic fluently and English natively
-* 🍛 I thoroughly enjoy cooking and learning new recipes
-* 📖 I enjoy reading both non fiction and sci-fi books
-* 🎬 I enjoy Filmmaking, photography and video editing
+### Certified Kubernetes Administrator - Linux Foundation
 
+*March 2022 - March 2025*
 
+The Certified Kubernetes Administrator (CKA) program provides assurance that CKAs have the skills, knowledge, and competency to perform the responsibilities of Kubernetes administrators.
+
+[Certificate](/cka-certificate.pdf)
+
+### BEng Electronic and Information Engineering - King's College London
+
+*September 2017 - May 2020*
+
+Graduated with a first class degree with honours. I gained knowlede and experiance in a number of fields including: programming, machine learning, circuit theory, mathematics and logic.
