@@ -1,69 +1,88 @@
-baseURL = 'https://kenanjasim.com/'
-languageCode = 'en-us'
-title = 'Kenan Jasim'
-theme = 'terminal'
-paginate     = 10
+baseURL = 'kenanjasim.com'
+languageCode = 'en-gb'
+title = 'Kenan (كنان)'
+theme = "typo"
+
+[taxonomies]
+tag = 'tags'
+
+# Google analytics code
+googleAnalytics = "G-xxxxxxxxx"
 
 [params]
-  # contentTypeName = "content/posts"
-  themeColor = "green"
-  # showMenuItems = 2
-  fullWidthTheme = false
-  centerTheme = true
+# Meta description
+description = "Kenan Jasim's personal blog"
 
-  favicon = "/favicon.ico"
+# faviconPath = "/static"
 
-  # Show a table of contents
-  toc = true
+# Appearance settings
+theme = 'auto'
+colorPalette = 'default'
+hideHeader = false
 
-  # show selector to switch language
-  showLanguageSelector = true
+# Intro on main page, content is markdown
+homeIntroTitle = 'Salam! 👋'
+homeIntroContent = """
+I'm Kenan, a software engineer with a background in electronic engineering. 
 
-[languages.en]
-  title = "Kenan Jasim"
-  subtitle = "A simple, retro theme for Hugo"
-  keywords = ""
-  copyright = ""
-  menuMore = "Show more"
-  readMore = "Read more"
-  readOtherPosts = "Read other posts"
+* 🧑‍💻 I have 5+ years of experience in software development.
+* 🌍 I was born in the UK with Lebanese and Iraqi decent. I am fluent in both English and Arabic.
+* 🎓 I have a BEng in Electronic and Information Engineering from King's College London.
+* ✈️ I love travelling, learning about different cultures and trying new foods.
+* 📚 In my free time, I enjoy cooking reading, photography and video editing.
 
-[languages.en.params.logo]
-  logoText = "Kenan (كنان)"
-  logoHomeLink = "/about"
+I enjoy learning new things and sharing my knowledge with others. This blog is a collection of my thoughts, experiences and learnings. I hope you find it useful. 🙂
+"""
 
-[languages.en.menu]
+# Collection to display on home
+homeCollectionTitle = 'Posts'
+homeCollection = 'posts'
 
-  [[languages.en.menu.main]]
-    identifier = "posts"
-    name = "Posts"
-    url = "/posts"
+# Lists parameters
+paginationSize = 100
+listSummaries = true
+listDateFormat = '2 Jan 2006'
 
-  [[languages.en.menu.main]]
-    identifier = "about"
-    name = "About"
-    url = "/about"
-  [[languages.en.menu.main]]
-    identifier = "projects"
-    name = "Projects"
-    url = "/projects"
+# Breadcrumbs
+breadcrumbs = true
 
-  [[languages.en.menu.main]]
-    identifier = "cv"
-    name = "CV"
-    url = "/cv"
-  
-  [[languages.en.menu.main]]
-    identifier = "education"
-    name = "Education"
-    url = "/education"
-  
-  [[languages.en.menu.main]]
-    identifier = "tags"
-    name = "Tags"
-    url = "/tags"
+# Social icons
+[[params.social]]
+name = "linkedin"
+url = "https://www.linkedin.com/in/kenanjasim/"
 
-# [languages.ar]
-#   title = "كنان جاسم"
-#   subtitle = "موقع شخصي"
-#   keywords = ""
+[[params.social]]
+name = "github"
+url = "https://github.com/KenJasim"
+
+[[params.social]]
+name = "email"
+url = "mailto:kenan@kenanjasim.com"
+
+# Main menu pages
+[[params.menu]]
+name = "home"
+url = "/"
+
+[[params.menu]]
+name = "posts"
+url = "/posts"
+
+[[params.menu]]
+name = "about"
+url = "/about"
+
+# Syntax highligth on code blocks
+[markup]
+[markup.highlight]
+style = 'algol'
+
+# Giscus comments
+[params.giscus]
+enable = false
+repo = "user/repo"
+repoid = "repoId"
+category = "General"
+categoryid = "categoryId"
+mapping = "pathname"
+theme = "preferred_color_scheme"
