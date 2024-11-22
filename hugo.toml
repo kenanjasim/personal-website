@@ -11,9 +11,9 @@ googleAnalytics = "G-xxxxxxxxx"
 
 [params]
 # Meta description
-description = "A Tech Blog"
+description = "Kenan Jasim's personal blog"
 
-faviconPath = '/static/favicon.ico'
+# faviconPath = "/static"
 
 # Appearance settings
 theme = 'auto'
