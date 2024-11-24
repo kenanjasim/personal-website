@@ -5,6 +5,9 @@ theme = "typo"
 
 [outputs]
   home = ['html', 'rss']
+  section = ['html']
+  taxonomy = ['html']
+  term = ['html']
 
 [taxonomies]
 tag = 'tags'
