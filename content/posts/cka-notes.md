@@ -6,7 +6,6 @@ categories = ["notes"]
 tags = ["kubernetes", "notes"]
 +++
 
-
 A couple of years ago now, I did my Certified Kubernetes Administrator exam, I created a set of notes containing everything I needed to know for the exam. I have decided to share these notes in the hope that they will help others.
 
 # Section 1: Core Concepts

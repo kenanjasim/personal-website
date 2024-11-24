@@ -3,17 +3,18 @@ languageCode = 'en-gb'
 title = 'Kenan (كنان)'
 theme = "typo"
 
+[outputs]
+  home = ['html', 'rss']
+
 [taxonomies]
 tag = 'tags'
 
-# Google analytics code
-googleAnalytics = "G-xxxxxxxxx"
+# # Google analytics code
+# googleAnalytics = "G-xxxxxxxxx"
 
 [params]
 # Meta description
 description = "Kenan Jasim's personal blog"
-
-# faviconPath = "/static"
 
 # Appearance settings
 theme = 'auto'
@@ -49,6 +50,10 @@ breadcrumbs = true
 
 # Social icons
 [[params.social]]
+name = "bluesky"
+url = "https://bsky.app/profile/kenanjasim.bsky.social"
+
+[[params.social]]
 name = "linkedin"
 url = "https://www.linkedin.com/in/kenanjasim/"
 
@@ -59,6 +64,10 @@ url = "https://github.com/KenJasim"
 [[params.social]]
 name = "email"
 url = "mailto:kenan@kenanjasim.com"
+
+[[params.social]]
+name = "rss"
+url = "/index.xml"
 
 # Main menu pages
 [[params.menu]]
@@ -78,12 +87,12 @@ url = "/about"
 [markup.highlight]
 style = 'algol'
 
-# Giscus comments
-[params.giscus]
-enable = false
-repo = "user/repo"
-repoid = "repoId"
-category = "General"
-categoryid = "categoryId"
-mapping = "pathname"
-theme = "preferred_color_scheme"
+# # Giscus comments
+# [params.giscus]
+# enable = false
+# repo = "user/repo"
+# repoid = "repoId"
+# category = "General"
+# categoryid = "categoryId"
+# mapping = "pathname"
+# theme = "preferred_color_scheme"
