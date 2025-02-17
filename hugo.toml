@@ -31,10 +31,9 @@ I'm Kenan, a software engineer with a background in electronic engineering.
 
 * 🧑‍💻 I have 5+ years of experience in software development.
 * 🎓 I have a BEng in Electronic and Information Engineering from King's College London.
-* 🌍 I was born in the UK with Lebanese and Iraqi decent. I am fluent in both English and Arabic.
+* 🌍 I was born in the UK with Lebanese and Iraqi decent. I am a Muslim and I am fluent in both English and Arabic.
 * 🏥 I have had type 1 diabetes since I was a one year old.
-* ✈️ I love travelling, learning about different cultures and trying new foods.
-* 📚 In my free time, I enjoy cooking, reading, photography and running.
+* ✈️ I love travelling, learning about different cultures and trying new foods, I also enjoy cooking, reading, photography and running.
 
 I enjoy learning new things and sharing my knowledge with others. This blog is a collection of my thoughts, experiences and learnings. I hope you find it useful. 🙂
 """
@@ -62,7 +61,7 @@ url = "https://www.linkedin.com/in/kenanjasim/"
 
 [[params.social]]
 name = "github"
-url = "https://github.com/KenJasim"
+url = "https://github.com/kenanjasim/"
 
 [[params.social]]
 name = "email"
