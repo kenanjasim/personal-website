@@ -81,8 +81,8 @@ name = "posts"
 url = "/posts"
 
 [[params.menu]]
-name = "about"
-url = "/about"
+name = "cv"
+url = "https://kenanjasim.github.io/cv/cv.pdf"
 
 # Syntax highligth on code blocks
 [markup]
