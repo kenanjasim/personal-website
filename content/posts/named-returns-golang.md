@@ -1,6 +1,6 @@
 +++
 title = 'When to use named returns in Go?'
-date = "2025-01-11"
+date = "2025-08-11"
 author = "Kenan Jasim"
 categories = ["golang"]
 tags = ["discussion", "golang", "programming", "software engineering"]
