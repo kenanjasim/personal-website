@@ -10,7 +10,7 @@ Recently while reviewing a PR addressing some linting issues, a colleague of min
 
 This prompted a discussion about when, if ever, it is appropriate to use named return values in Go.
 
-## What are named returns?
+## What are named returns?
 
 In Golang, when defining a function, you can "name" the return values. This means that you can specify the names of the return variables in the function signature. For example:
 
