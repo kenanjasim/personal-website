@@ -25,17 +25,15 @@ colorPalette = 'default'
 hideHeader = false
 
 # Intro on main page, content is markdown
-homeIntroTitle = 'Salam! 👋'
+homeIntroTitle = 'Hello (سلام)! 👋'
 homeIntroContent = """
-I'm Kenan, a software engineer with a background in electronic engineering. 
+I'm Kenan, a software engineer with a background in electronic engineering.
 
-* 🧑‍💻 I have 5+ years of experience in software development.
-* 🎓 I have a BEng in Electronic and Information Engineering from King's College London.
-* 🌍 I was born in the UK with Lebanese and Iraqi descent. I am a Muslim and I am fluent in both English and Arabic.
-* 🏥 I have had type 1 diabetes since I was a one year old.
-* ✈️ I love travelling, learning about different cultures and trying new foods, I also enjoy cooking, reading, photography and running.
+* 🧑‍💻 5+ years in software development with a BEng from King's College London
+* 🌍 UK-born, Lebanese-Iraqi heritage, fluent in English & Arabic
+* 🏥 Living with type 1 diabetes since I was one year old
 
-I enjoy learning new things and sharing my knowledge with others. This blog is a collection of my thoughts, experiences and learnings. I hope you find it useful. 🙂
+I write about tech, my interests, my life, and other stuff. Thanks for stopping by.
 """
 
 # Collection to display on home
