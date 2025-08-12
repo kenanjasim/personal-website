@@ -3,8 +3,6 @@ name: Hugo CI Build
 on:
   push:
     branches-ignore: ["main"]
-  pull_request:
-    branches: ["main"]
 
 defaults:
   run:
