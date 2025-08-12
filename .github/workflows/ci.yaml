@@ -33,8 +33,7 @@ jobs:
           HUGO_ENVIRONMENT: production
           HUGO_ENV: production
         run: |
-          hugo \
-            --minify \
+          hugo --minify 
       - name: Check for broken links (optional)
         run: |
           echo "✅ Build completed successfully!"
