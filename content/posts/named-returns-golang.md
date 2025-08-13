@@ -1,10 +1,12 @@
-+++
-title = 'When to use named returns in Go?'
-date = "2025-08-11"
-author = "Kenan Jasim"
-categories = ["golang"]
-tags = ["discussion", "golang", "programming", "software engineering"]
-+++
+---
+title: 'When to use named returns in Go?'
+date: "2025-08-11"
+author: "Kenan Jasim"
+tags: ["discussion", "golang", "software engineering"]
+readTime: true
+summary: "A discussion on when to use named return values in Go functions, and when to avoid them."
+description: "A discussion on when to use named return values in Go functions, and when to avoid them."
+---
 
 Recently while reviewing a PR addressing some linting issues, a colleague of mine pointed out that we had enabled the `nonamedreturns` linter rule in our project. This rule is part of the `golangci-lint` tool and it checks for named return values in functions.
 

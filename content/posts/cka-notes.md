@@ -1,12 +1,15 @@
-+++
-title = 'Certified Kubernetes Administrator Notes'
-date = "2024-01-16"
-author = "Kenan Jasim"
-categories = ["notes"]
-tags = ["kubernetes", "notes"]
-+++
+---
+title: 'Certified Kubernetes Administrator Notes'
+date: "2024-01-16"
+author: "Kenan Jasim"
+tags: ["kubernetes", "notes"]
+toc: true
+readTime: true
+autonumber: true
+summary: "A couple of years ago now, I did my Certified Kubernetes Administrator exam, I created a set of notes containing everything I needed to know for the exam. I have decided to share these notes in the hope that they will help others."
+description: "A set of notes I created while preparing for the Certified Kubernetes Administrator exam."
+---
 
-A couple of years ago now, I did my Certified Kubernetes Administrator exam, I created a set of notes containing everything I needed to know for the exam. I have decided to share these notes in the hope that they will help others.
 
 # Section 1: Core Concepts
 
