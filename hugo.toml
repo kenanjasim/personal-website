@@ -27,7 +27,7 @@ hideHeader = false
 # Intro on main page, content is markdown
 homeIntroTitle = 'Hello (سلام)! 👋'
 homeIntroContent = """
-I'm Kenan, a software engineer with a background in electronic engineering.
+I'm Kenan Jasim (كنان جاسم | /kiːˈnæn ˈd͡ʒaːsim/), a software engineer with a background in electronic engineering.
 
 * 🧑‍💻 5+ years in software development with a BEng from King's College London
 * 🌍 UK-born, Lebanese-Iraqi heritage, fluent in English & Arabic
@@ -60,6 +60,10 @@ url = "https://www.linkedin.com/in/kenanjasim/"
 [[params.social]]
 name = "github"
 url = "https://github.com/kenanjasim/"
+
+[[params.social]]
+name = "strava"
+url = "https://www.strava.com/athletes/97755215"
 
 [[params.social]]
 name = "email"
