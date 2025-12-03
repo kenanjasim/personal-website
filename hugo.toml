@@ -25,12 +25,12 @@ colorPalette = 'default'
 hideHeader = false
 
 # Intro on main page, content is markdown
-homeIntroTitle = 'Hello (سلام)! 👋'
+homeIntroTitle = 'Hello! 👋'
 homeIntroContent = """
 I'm Kenan Jasim (كنان جاسم | /kiːˈnæn ˈd͡ʒaːsim/), a software engineer with a background in electronic engineering.
 
 * 🧑‍💻 5+ years in software development with a BEng from King's College London
-* 🌍 UK-born, Lebanese-Iraqi heritage, fluent in English & Arabic
+* 🌍 UK-born, fluent in English & Arabic
 * 🏥 Living with type 1 diabetes since I was one year old
 
 I write about tech, my interests, my life, and other stuff. Thanks for stopping by.
