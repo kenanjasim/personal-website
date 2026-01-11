@@ -1,6 +1,6 @@
 baseURL = 'https://kenanjasim.com/'
 languageCode = 'en-gb'
-title = 'Kenan (كنان)'
+title = 'Kenan Jasim'
 theme = "typo"
 
 [outputs]
@@ -31,7 +31,7 @@ I'm Kenan Jasim (كنان جاسم | /kiːˈnæn ˈd͡ʒaːsim/), a software eng
 
 * 🧑‍💻 5+ years in software development with a BEng from King's College London
 * 🌍 UK-born, fluent in English & Arabic
-* 🏥 Living with type 1 diabetes since I was one year old
+* 🏥 Living with type 1 diabetes since I was a one year old
 
 I write about tech, my interests, my life, and other stuff. Thanks for stopping by.
 """
