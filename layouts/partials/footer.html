@@ -1,0 +1,20 @@
+{{/* Footer (project override) */}}
+{{ $showFooter := default true .Site.Params.showFooter }}
+{{ if $showFooter }}
+
+    {{ if .Site.Params.footerContent }}
+    <p class="footer-ack">{{ .Site.Params.footerContent | markdownify }}</p>
+    {{ else }}
+    <p class="footer-ack">
+        Made with 💚 in London using
+        <a href="https://gohugo.io/">Hugo</a> and a customised
+        <a href="https://github.com/tomfran/typo">typo</a> theme
+        · © {{ now.Year }} {{ site.Title }}
+    </p>
+    {{ end }}
+
+{{ end }}
+
+{{ if .Param "math" }}
+{{ partialCached "math.html" . }}
+{{ end }}

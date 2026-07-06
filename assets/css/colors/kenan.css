@@ -1,0 +1,31 @@
+/* Kenan — a warm paper background with a deep teal accent */
+
+:root {
+    --content-primary: rgb(38, 34, 30);
+    --content-secondary: rgb(126, 114, 101);
+    --background: rgb(246, 241, 231);
+    --code-background: rgb(237, 230, 217);
+    --code-border: rgb(221, 211, 195);
+
+    /* accents (custom — used in custom.css) */
+    --accent: rgb(21, 122, 96);
+    --accent-hover: rgb(15, 94, 72);
+    --accent-soft: rgb(200, 228, 219);
+
+    /* Unvisited countries on the travel map */
+    --map-base: rgb(214, 208, 196);
+}
+
+.dark {
+    --content-primary: rgb(228, 222, 214);
+    --content-secondary: rgb(151, 141, 130);
+    --background: rgb(24, 21, 18);
+    --code-background: rgb(33, 29, 25);
+    --code-border: rgb(54, 49, 44);
+
+    --accent: rgb(79, 193, 160);
+    --accent-hover: rgb(111, 212, 181);
+    --accent-soft: rgb(30, 58, 50);
+
+    --map-base: rgb(60, 55, 49);
+}

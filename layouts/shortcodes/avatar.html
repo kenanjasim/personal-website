@@ -1,0 +1,7 @@
+{{/* Smart-cropped avatar for the About hero (mirrors the homepage profile card) */}}
+{{ with resources.Get site.Params.profileImage }}
+{{ $a := .Fill "260x260 Smart" }}
+{{ $altSrc := "" }}
+{{ with site.Params.profileImageAlt }}{{ with resources.Get . }}{{ $altSrc = (.Fill "260x260 Smart").RelPermalink }}{{ end }}{{ end }}
+<img class="avatar avatar-about" src="{{ $a.RelPermalink }}"{{ with $altSrc }} data-alt-src="{{ . }}" title="psst — click me"{{ end }} alt="{{ site.Title }}" width="110" height="110" />
+{{ end }}

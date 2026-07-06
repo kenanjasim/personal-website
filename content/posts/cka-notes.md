@@ -694,7 +694,7 @@ Kubeadm is a tool provided by kubernetes to help set up a kubernetes cluster fol
 * You must first provision the machines needed for the cluster you are building (single node, 1 master 2 workers etc)
 * Install  a Container Runtime Interface (docker, containerd etc)
 * Install the kubeadm, kubelet and kubectl binaries on all nodes.
-* Initialise the master node kubeadm init <args>
+* Initialise the master node `kubeadm init <args>`
 * Ensure network prerequisites are met (cni plugin)
 * Join worker nodes using the join command specified by the kubeadm tool
 

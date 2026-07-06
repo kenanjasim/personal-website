@@ -1,0 +1,73 @@
+{{ define "main" }}
+
+{{ .Content }}
+
+{{/* Intro summary section — avatar beside the text */}}
+
+{{ if or .Site.Params.homeIntroTitle .Site.Params.homeIntroContent }}
+<div class="intro-wrap">
+
+    {{ with resources.Get .Site.Params.profileImage }}
+    {{ $avatar := .Fill "300x300 Smart" }}
+    {{ $altSrc := "" }}
+    {{ with site.Params.profileImageAlt }}{{ with resources.Get . }}{{ $altSrc = (.Fill "300x300 Smart").RelPermalink }}{{ end }}{{ end }}
+    <div class="profile-card">
+        <img class="avatar" src="{{ $avatar.RelPermalink }}"{{ with $altSrc }} data-alt-src="{{ . }}" title="psst — click me"{{ end }} alt="{{ site.Title }}" width="140" height="140" />
+        {{ with site.Params.profileName }}<p class="profile-name">{{ . }}</p>{{ end }}
+        {{ with site.Params.profileRole }}<p class="profile-role">{{ . | safeHTML }}</p>{{ end }}
+        {{ with site.Params.profileMeta }}<p class="profile-meta">{{ . }}</p>{{ end }}
+        {{ with site.Params.profileTags }}
+        <div class="profile-tags">
+            {{ range . }}<span class="profile-tag">{{ . }}</span>{{ end }}
+        </div>
+        {{ end }}
+    </div>
+    {{ end }}
+
+    <div class="intro">
+        {{ with .Site.Params.homeIntroTitle }}
+        <h1 id="home-greeting">{{ . }}</h1>
+        {{ end }}
+
+        {{ with .Site.Params.homeIntroContent }}
+        <p>{{ . | markdownify }}</p>
+        {{ end }}
+
+        <p class="london-time" id="london-time"></p>
+    </div>
+</div>
+{{ end }}
+
+{{/* Social Icons */}}
+
+{{ partial "social-icons.html" . }}
+
+{{/* Collection Section */}}
+
+{{ if .Site.Params.homeCollection }}
+
+<div class="list-container">
+    {{ with .Site.Params.homeCollectionTitle}}
+    <h1> {{ . }} </h1>
+    {{ end }}
+
+    {{ $pages := where .Site.RegularPages "Section" .Site.Params.homeCollection
+    }}
+
+    {{ $paginationSize := 1}}
+    {{ if (gt .Site.Params.paginationSize 0) }}
+    {{ $paginationSize = .Site.Params.paginationSize }}
+    {{ end }}
+
+    {{ $paginator := .Paginate $pages $paginationSize }}
+
+    {{ range $index, $page := $paginator.Pages }}
+    {{ partial "post-entry.html" $page}}
+    {{ end }}
+
+    {{ partial "pagination-controls.html" $paginator}}
+
+    {{ end }}
+</div>
+
+{{ end }}

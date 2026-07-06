@@ -1,0 +1,632 @@
+/* ------------------------------------------------------------------ *
+ *  Custom styling for kenanjasim.com — layered on top of the typo theme
+ * ------------------------------------------------------------------ */
+
+/* Prose links pick up the accent colour (nav / social / footer keep theirs) */
+.single-content a,
+.intro a {
+  color: var(--accent);
+  text-decoration-color: var(--accent-soft);
+  text-underline-offset: 0.15em;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+.single-content a:hover,
+.intro a:hover {
+  color: var(--accent-hover);
+  text-decoration-color: var(--accent);
+}
+
+/* ---- Light/dark toggle button (in the nav) ---- */
+.nav-sep {
+  color: var(--content-secondary);
+  opacity: 0.5;
+  margin-left: var(--header-menu-side-gap);
+  font-family: var(--font-mono);
+  font-size: small;
+  line-height: 1;
+}
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-left: calc(2 * var(--header-menu-side-gap));
+  cursor: pointer;
+  color: var(--content-primary);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+.theme-toggle:hover {
+  color: var(--accent);
+  transform: rotate(-18deg);
+}
+.theme-toggle svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+/* Show the icon for the mode you'll switch TO: moon in light, sun in dark */
+.theme-toggle .icon-sun { display: none; }
+.theme-toggle .icon-moon { display: block; }
+body.dark .theme-toggle .icon-sun { display: block; }
+body.dark .theme-toggle .icon-moon { display: none; }
+
+/* ---- Breadcrumbs moved to the bottom: give them room, drop the pull-up margin ---- */
+.breadcrumbs {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+/* ---- Header: title + nav on one row, subtitle beneath ---- */
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.5rem;
+}
+.header .flex {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+}
+/* The theme adds a 1rem top-margin to nav items for the old stacked layout; drop it here */
+.header .flex p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+@media (max-width: 620px) {
+  .header-top {
+    align-items: flex-start;
+  }
+  .header .flex {
+    justify-content: flex-start;
+  }
+}
+
+/* ---- Header subtitle: Arabic name + phonetic under the site title ---- */
+.header .header-subtitle {
+  margin: 0.25rem 0 0;
+  font-family: var(--font-body);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  color: var(--content-secondary);
+}
+.header-arabic {
+  font-size: 1.15rem;
+}
+.header-phonetic {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+
+/* ---- Spread the accent through the UI (so colour shows on every page) ---- */
+
+/* Site name in the header */
+.header-title a { color: var(--accent); }
+.header-title a:hover { color: var(--accent-hover); }
+
+/* Nav menu: active page + hover in accent */
+.header .flex p.bold a { color: var(--accent); }
+.header .flex a:hover { color: var(--accent); }
+
+/* Social icons tint on hover (SVGs use currentColor) */
+.social-icons a:hover { color: var(--accent); }
+
+/* Post list: title turns accent on hover */
+.line-title a:hover,
+.post-line a:hover { color: var(--accent); }
+
+/* Section headings (Hello / Posts / etc.) get a short accent underline */
+.intro h1,
+.list-container > h1 {
+  position: relative;
+  padding-bottom: 0.35rem;
+}
+.intro h1::after,
+.list-container > h1::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 2.5rem;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--accent);
+}
+
+/* Bold text in the home intro leans into the accent */
+.intro strong { color: var(--accent); }
+
+/* Accent bar on blockquotes */
+.single-content blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: 1em;
+  margin-left: 0;
+  color: var(--content-secondary);
+  font-style: italic;
+}
+
+/* ---- Profile avatar ---- */
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--accent);
+  padding: 3px;
+  background: var(--background);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+.avatar:hover {
+  transform: scale(1.04) rotate(2deg);
+}
+
+/* Homepage: avatar beside the intro text */
+.intro-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.6rem;
+  margin-bottom: 1rem;
+}
+.intro-wrap .intro {
+  flex: 1;
+  min-width: 0;
+}
+/* Align the greeting's top with the top of the avatar (theme adds a big h1 margin) */
+.intro-wrap .intro h1 {
+  margin-top: 0;
+}
+
+/* Little profile card under the picture */
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.15rem;
+  flex-shrink: 0;
+  width: 160px;
+  margin-top: 0;
+}
+.profile-card .avatar {
+  width: 130px;
+  height: 130px;
+}
+.profile-name {
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 0.6rem 0 0;
+}
+.profile-role {
+  margin: 0.25rem 0 0;
+  font-size: 0.82rem;
+  color: var(--content-secondary);
+}
+.profile-role a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.profile-role a:hover {
+  text-decoration: underline;
+}
+.profile-meta {
+  margin: 0.1rem 0 0;
+  font-size: 0.82rem;
+  color: var(--content-secondary);
+}
+.profile-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+.profile-tag {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--code-border);
+  border-radius: 999px;
+  background: var(--code-background);
+  color: var(--content-secondary);
+}
+
+@media (max-width: 560px) {
+  .intro-wrap {
+    flex-direction: column;
+    align-items: center;
+  }
+  .profile-card {
+    width: auto;
+  }
+}
+
+/* ---- About page hero ---- */
+.about-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+.about-hero h1 {
+  margin-bottom: 0.3rem;
+}
+.avatar-about {
+  width: 110px;
+  height: 110px;
+}
+
+/* ---- About page epigraph / pull-quote ---- */
+.single-content blockquote.about-quote {
+  border-left: 4px solid var(--accent);
+  margin: 1.5rem 0 2rem;
+  padding: 0.4rem 0 0.4rem 1.3rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--content-primary);
+}
+.about-quote cite {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.9rem;
+  font-style: normal;
+  color: var(--content-secondary);
+}
+.wave {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 2.4s ease-in-out infinite;
+}
+@keyframes wave {
+   0% { transform: rotate(0deg); }
+   8% { transform: rotate(14deg); }
+  16% { transform: rotate(-8deg); }
+  24% { transform: rotate(14deg); }
+  32% { transform: rotate(-4deg); }
+  40% { transform: rotate(10deg); }
+  48% { transform: rotate(0deg); }
+ 100% { transform: rotate(0deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave { animation: none; }
+}
+
+/* ---- Personality panels (used via the `panels` / `panel` shortcodes) ---- */
+.panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.panel {
+  border: 1px solid var(--code-border);
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  background: var(--code-background);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.panel:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-bottom: 0.5rem;
+}
+.panel-emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+.panel-head h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+.panel-body {
+  color: var(--content-secondary);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.panel-body p:first-child { margin-top: 0; }
+.panel-body p:last-child { margin-bottom: 0; }
+.panel-body a { color: var(--accent); }
+
+/* ---- Travel map ---- */
+.travel-map {
+  width: 100%;
+  height: 460px;
+  margin: 1.5rem 0 0.5rem;
+}
+.travel-map .jvm-zoom-btn {
+  background: var(--accent);
+  border-radius: 4px;
+}
+.travel-count {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--content-secondary);
+  margin: 0.5rem 0 1rem;
+}
+.travel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.travel-card {
+  border: 1px solid var(--code-border);
+  border-radius: 12px;
+  background: var(--code-background);
+  overflow: hidden;
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.travel-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+.travel-card-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  display: block;
+}
+.travel-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.85rem 0.4rem;
+}
+.travel-flag {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.travel-name {
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+.travel-note {
+  margin: 0;
+  padding: 0 0.85rem 0.85rem;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--content-secondary);
+}
+.travel-card {
+  cursor: pointer;
+}
+.travel-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+/* When a card has no note, give the head a little breathing room at the bottom */
+.travel-card-head:last-child {
+  padding-bottom: 0.85rem;
+}
+
+/* ---- Travel lightbox ---- */
+.travel-modal[hidden] {
+  display: none;
+}
+.travel-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+.travel-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+.travel-modal-content {
+  position: relative;
+  z-index: 1;
+  max-width: 560px;
+  width: 100%;
+  max-height: 85vh;
+  overflow: auto;
+  background: var(--background);
+  border: 1px solid var(--code-border);
+  border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+.travel-modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--content-primary);
+  opacity: 0.7;
+}
+.travel-modal-close:hover {
+  opacity: 1;
+  color: var(--accent);
+}
+.travel-modal-img {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: cover;
+  display: block;
+  border-radius: 14px 14px 0 0;
+}
+.travel-modal-body {
+  padding: 1.1rem 1.3rem 1.4rem;
+}
+.travel-modal-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.travel-modal-flag {
+  font-size: 2rem;
+  line-height: 1;
+}
+.travel-modal-name {
+  margin: 0;
+}
+.travel-modal-note {
+  margin: 0.6rem 0 0;
+  color: var(--content-secondary);
+  line-height: 1.55;
+}
+
+/* ---- Konami easter egg: falling hearts ---- */
+.konami-heart {
+  position: fixed;
+  top: -2.5rem;
+  z-index: 9999;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+  animation-name: konami-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+@keyframes konami-fall {
+  0%   { transform: translateY(-2.5rem) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) rotate(360deg); opacity: 0.85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .konami-heart { animation-duration: 0.01ms !important; opacity: 0; }
+}
+
+/* ---- Reading progress bar ---- */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 1000;
+  pointer-events: none;
+}
+.reading-progress-bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+}
+
+/* ---- Copy button on code blocks ---- */
+.single-content pre {
+  position: relative;
+}
+.copy-code {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  color: var(--content-secondary);
+  background: var(--background);
+  border: 1px solid var(--code-border);
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.single-content pre:hover .copy-code,
+.copy-code:focus-visible {
+  opacity: 1;
+}
+.copy-code:hover,
+.copy-code.copied {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+@media (hover: none) {
+  .copy-code { opacity: 0.65; }
+}
+
+/* ---- Homepage London clock ---- */
+.london-time {
+  margin-top: 0.7rem !important;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--content-secondary);
+}
+.london-time:empty {
+  display: none;
+}
+
+/* ---- Live blood-sugar widget ---- */
+.bg-widget {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.5rem 0;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid var(--code-border);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  background: var(--code-background);
+  font-size: 0.95rem;
+}
+.bg-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+.bg-value {
+  font-weight: bold;
+  font-family: var(--font-mono);
+}
+.bg-in { color: var(--accent); }
+.bg-out { color: #c98a2b; }
+.bg-unavailable {
+  color: var(--content-secondary);
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* ---- Fun 404 page ---- */
+.not-found {
+  display: block;
+  text-align: center;
+  padding: 2.5rem 0 3rem;
+}
+.nf-code {
+  font-size: 6rem;
+  line-height: 1;
+  font-weight: bold;
+  color: var(--accent);
+  margin: 0;
+  letter-spacing: 0.05em;
+}
+.nf-title {
+  margin: 0.5rem 0 0.8rem;
+  font-size: 1.4rem;
+}
+.nf-sub {
+  color: var(--content-secondary);
+  margin: 0 auto 1.5rem;
+  max-width: 30rem;
+}
+.nf-links a {
+  color: var(--accent);
+}
+.nf-dot {
+  color: var(--content-secondary);
+  margin: 0 0.5rem;
+}
+
+/* A small "psst, fill me in" marker for placeholder content */
+.wip {
+  color: var(--accent);
+  font-style: italic;
+  opacity: 0.85;
+}

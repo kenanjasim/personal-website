@@ -1,5 +1,5 @@
 baseURL = 'https://kenanjasim.com/'
-languageCode = 'en-gb'
+locale = 'en-gb'
 title = 'Kenan Jasim'
 theme = "typo"
 
@@ -21,19 +21,34 @@ description = "Kenan Jasim's personal blog"
 
 # Appearance settings
 theme = 'auto'
-colorPalette = 'default'
+colorPalette = 'kenan'
 hideHeader = false
+
+# Header subtitle (shown under the site title)
+headerArabic = 'كنان جاسم'
+headerPhonetic = '/kiːˈnæn ˈd͡ʒaːsim/'
+
+# Profile image (asset path — Hugo smart-crops it to a square, face-centred).
+profileImage = 'images/selfie.jpg'
+# Fun alternate shown when you click the avatar (easter egg). Leave empty to disable.
+profileImageAlt = 'images/90s.jpg'
+
+# Little profile card under the homepage picture
+profileName = 'Kenan Jasim'
+profileRole = 'Software Engineer @ <a href="https://aalyria.com" target="_blank" rel="noopener">Aalyria</a>'
+profileMeta = 'he/him · London 🇬🇧🇱🇧🇮🇶'
+
+# Your Nightscout site URL, e.g. 'https://kenan-cgm.up.railway.app'
+# When set, a live blood-sugar reading shows on the About page. Leave empty to hide it.
+nightscoutUrl = 'https://nightscout.kenanjasim.com'
 
 # Intro on main page, content is markdown
 homeIntroTitle = 'Hello! 👋'
 homeIntroContent = """
-I'm Kenan Jasim (كنان جاسم | /kiːˈnæn ˈd͡ʒaːsim/), a software engineer with a background in electronic engineering.
+I'm a software engineer with a background in electronic engineering.
 
-* 🧑‍💻 5+ years in software development with a BEng from King's College London
-* 🌍 UK-born, fluent in English & Arabic
-* 🏥 Living with type 1 diabetes since I was a one year old
-
-I write about tech, my interests, my life, and other stuff. Thanks for stopping by.
+[Check out the about page](/about) to learn more about me, take a look at my [CV](https://kenanjasim.github.io/cv/cv.pdf), or scroll down for the things I've written. 
+Thanks for stopping by 💚
 """
 
 # Collection to display on home
@@ -83,13 +98,24 @@ name = "posts"
 url = "/posts"
 
 [[params.menu]]
-name = "cv"
-url = "https://kenanjasim.github.io/cv/cv.pdf"
+name = "about"
+url = "/about"
 
-# Syntax highligth on code blocks
+[[params.menu]]
+name = "travel"
+url = "/travel"
+
+# Image processing quality (avatars etc.)
+[imaging]
+quality = 85
+
+# Syntax highlighting on code blocks (class-based, so it adapts to light/dark via chroma.css)
 [markup]
 [markup.highlight]
-style = 'algol'
+noClasses = false
+# Allow intentional inline HTML in content (styled spans, wrappers, etc.)
+[markup.goldmark.renderer]
+unsafe = true
 
 # # Giscus comments
 # [params.giscus]
