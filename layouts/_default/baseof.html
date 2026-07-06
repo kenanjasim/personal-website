@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="{{ or site.Language.Locale site.Language.Lang }}"
+  dir="{{ or site.Language.Direction `ltr` }}">
+
+  <head>
+    {{ partial "head.html" . }}
+  </head>
+
+  {{ $theme := "auto"}}
+
+  {{ with .Param "theme" }}
+  {{ $theme = .}}
+  {{ end }}
+
+  <body class="{{ $theme }}">
+
+    <div class="content">
+      <header>
+        {{ partial "header.html" . }}
+      </header>
+
+      <main class="main">
+        {{ block "main" . }}{{ end }}
+      </main>
+    </div>
+
+    <footer>
+      {{ partial "footer.html" . }}
+    </footer>
+
+  </body>
+
+  {{/* Theme handling (project override): manual toggle + persisted preference */}}
+  <script>
+
+  const THEME_KEY = "theme-preference";
+
+  function systemPrefersDark() {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  function currentTheme() {
+    return document.body.classList.contains("dark") ? "dark" : "light";
+  }
+
+  function updateToggleIcon(theme) {
+    const btn = document.getElementById("theme-toggle");
+    if (!btn) return;
+    // The sun/moon icon itself is swapped via CSS on the body class; just keep the label accurate.
+    btn.setAttribute("aria-label", theme === "dark" ? "Switch to light mode" : "Switch to dark mode");
+  }
+
+  function applyTheme(theme) {
+    document.body.classList.remove("auto", "light", "dark");
+    document.body.classList.add(theme);
+    updateToggleIcon(theme);
+    window.dispatchEvent(new CustomEvent("themechanged", { detail: { theme: theme } }));
+  }
+
+  function toggleTheme() {
+    const next = currentTheme() === "dark" ? "light" : "dark";
+    localStorage.setItem(THEME_KEY, next);
+    applyTheme(next);
+  }
+
+  // Resolve initial theme: a saved choice wins, otherwise follow the system.
+  (function initTheme() {
+    const saved = localStorage.getItem(THEME_KEY);
+    applyTheme(saved || (systemPrefersDark() ? "dark" : "light"));
+  })();
+
+  // Follow OS changes only while the user hasn't made an explicit choice.
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      if (!localStorage.getItem(THEME_KEY)) {
+        applyTheme(e.matches ? "dark" : "light");
+      }
+    });
+  }
+
+  </script>
+
+  {{/* Easter egg: Konami code rains 💚 hearts — a nod to "kindness is strength" */}}
+  <script>
+  (function () {
+    var seq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    var pos = 0;
+
+    function heartShower() {
+      for (var i = 0; i < 45; i++) {
+        var heart = document.createElement('span');
+        heart.className = 'konami-heart';
+        heart.textContent = '💚';
+        heart.style.left = (Math.random() * 100) + 'vw';
+        heart.style.fontSize = (Math.random() * 1.6 + 1) + 'rem';
+        heart.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
+        heart.style.animationDelay = (Math.random() * 0.9) + 's';
+        document.body.appendChild(heart);
+        setTimeout((function (el) { return function () { el.remove(); }; })(heart), 5000);
+      }
+    }
+
+    document.addEventListener('keydown', function (e) {
+      var key = (e.key || '').toLowerCase();
+      if (key === seq[pos].toLowerCase()) {
+        pos++;
+        if (pos === seq.length) { pos = 0; heartShower(); }
+      } else {
+        pos = (key === seq[0].toLowerCase()) ? 1 : 0;
+      }
+    });
+
+    console.log('%c💚 psst… try the Konami code', 'color:#157A60; font-size:14px; font-weight:bold;');
+  })();
+  </script>
+
+  {{/* Progressive enhancements: copy-code buttons, reading progress, time-aware greeting */}}
+  <script>
+  (function () {
+
+    // Copy buttons on code blocks
+    document.querySelectorAll('.single-content pre').forEach(function (pre) {
+      if (pre.querySelector('.copy-code')) return;
+      var btn = document.createElement('button');
+      btn.className = 'copy-code';
+      btn.type = 'button';
+      btn.textContent = 'copy';
+      btn.setAttribute('aria-label', 'Copy code to clipboard');
+      pre.appendChild(btn);
+      btn.addEventListener('click', function () {
+        var code = pre.querySelector('code');
+        var text = code ? code.innerText : pre.innerText;
+        navigator.clipboard.writeText(text).then(function () {
+          btn.textContent = 'copied!';
+          btn.classList.add('copied');
+          setTimeout(function () { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 1500);
+        });
+      });
+    });
+
+    // Avatar easter egg: click to flip to the alternate photo
+    document.querySelectorAll('.avatar[data-alt-src]').forEach(function (img) {
+      var mainSrc = img.getAttribute('src');
+      var altSrc = img.getAttribute('data-alt-src');
+      var flipped = false;
+      img.style.cursor = 'pointer';
+      img.addEventListener('click', function () {
+        flipped = !flipped;
+        img.src = flipped ? altSrc : mainSrc;
+      });
+    });
+
+    // Reading progress bar
+    var bar = document.getElementById('reading-progress-bar');
+    if (bar) {
+      var updateBar = function () {
+        var h = document.documentElement;
+        var height = h.scrollHeight - h.clientHeight;
+        bar.style.width = (height > 0 ? (h.scrollTop / height) * 100 : 0) + '%';
+      };
+      window.addEventListener('scroll', updateBar, { passive: true });
+      window.addEventListener('resize', updateBar);
+      updateBar();
+    }
+
+    // Time-aware greeting (visitor's local time)
+    var greeting = document.getElementById('home-greeting');
+    if (greeting) {
+      var hr = new Date().getHours();
+      var word = hr < 12 ? 'Good morning' : (hr < 18 ? 'Good afternoon' : 'Good evening');
+      greeting.textContent = word + ' 👋';
+    }
+
+    // Live London clock (my time)
+    var londonEl = document.getElementById('london-time');
+    if (londonEl) {
+      var tick = function () {
+        try {
+          var t = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit' }).format(new Date());
+          londonEl.textContent = "🇬🇧 it's " + t + " for me in London right now";
+        } catch (e) {}
+      };
+      tick();
+      setInterval(tick, 30000);
+    }
+
+  })();
+  </script>
+
+</html>

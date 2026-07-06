@@ -1,0 +1,41 @@
+{{/* Live blood-sugar reading pulled from a self-hosted Nightscout instance */}}
+{{ $ns := site.Params.nightscoutUrl }}
+
+<div class="bg-widget">
+  <span class="bg-icon" aria-hidden="true">🩸</span>
+  <span class="bg-text">
+    my blood sugar right now:
+    <span class="bg-value" id="bg-value">{{ if $ns }}checking…{{ else }}<span class="wip">[set nightscoutUrl in config]</span>{{ end }}</span>
+  </span>
+</div>
+
+{{ with $ns }}
+<script>
+(function () {
+  var el = document.getElementById('bg-value');
+  if (!el) return;
+  var base = "{{ . }}".replace(/\/+$/, '');
+  var arrows = {
+    DoubleUp: '⇈', SingleUp: '↑', FortyFiveUp: '↗', Flat: '→',
+    FortyFiveDown: '↘', SingleDown: '↓', DoubleDown: '⇊'
+  };
+  fetch(base + '/api/v1/entries/sgv.json?count=1')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (!data || !data.length) throw new Error('no data');
+      var e = data[0];
+      var mmol = e.sgv / 18;
+      el.textContent = mmol.toFixed(1) + ' mmol/L ' + (arrows[e.direction] || '');
+      el.classList.add((mmol < 4 || mmol > 10) ? 'bg-out' : 'bg-in');
+      var ageMin = Math.round((Date.now() - e.date) / 60000);
+      if (ageMin >= 0 && ageMin < 600) {
+        el.title = ageMin < 1 ? 'just now' : ageMin + ' min ago';
+      }
+    })
+    .catch(function () {
+      el.textContent = 'having a quiet moment 😌';
+      el.classList.add('bg-unavailable');
+    });
+})();
+</script>
+{{ end }}

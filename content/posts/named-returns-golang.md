@@ -4,6 +4,7 @@ date: "2025-08-11"
 author: "Kenan Jasim"
 tags: ["discussion", "golang", "software engineering"]
 readTime: true
+toc: true
 summary: "A discussion on when to use named return values in Go functions, and when to avoid them."
 description: "A discussion on when to use named return values in Go functions, and when to avoid them."
 ---

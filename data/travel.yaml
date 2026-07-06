@@ -1,0 +1,32 @@
+# Countries I've travelled to.
+#   name  – label shown on the card
+#   code  – ISO 3166-1 alpha-2 code (colours the map + generates the flag emoji)
+#   note  – (optional) a short memory / one-liner shown on the card
+#   image – (optional) path to a photo, e.g. /travel/norway.jpg
+#           put the file in static/travel/ and it'll be served from /travel/<file>
+# Codes: https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+
+- name: United Kingdom
+  code: GB
+  note: Home turf — where it all starts and ends.
+  # image: /travel/uk.jpg
+
+- name: Norway
+  code: NO
+  # note:
+  # image: /travel/norway.jpg
+
+- name: Sweden
+  code: SE
+
+- name: Libya
+  code: LY
+
+- name: Lebanon
+  code: LB
+
+- name: Germany
+  code: DE
+
+- name: Greece (Santorini)
+  code: GR
