@@ -5,17 +5,17 @@ author: "Kenan Jasim"
 tags: ["golang", "software engineering"]
 readTime: true
 toc: true
-summary: "A look at which of the SOLID principles survive in a language with no classes and no inheritance."
-description: "A look at which of the SOLID principles survive in a language with no classes and no inheritance."
+summary: "A look at which of the SOLID principles still hold up in a language with no classes and no inheritance."
+description: "A look at which of the SOLID principles still hold up in a language with no classes and no inheritance."
 ---
 
-I've been chewing on something for a while. Does SOLID actually mean anything in Go? The principles were written for class-based languages like Java and C++, and Go has neither classes nor inheritance. So do they still apply, or am I just nodding along to a Java-era idea out of habit?
+Something I have wondered about for a while is whether SOLID actually means much in Go. The principles were written with class-based languages like Java and C++ in mind, and Go has neither classes nor inheritance, so it is a fair question whether they still apply or whether I am just repeating a Java-era idea out of habit.
 
-Where I landed: most of SOLID does apply, but it collapses into one Go feature. The interface. If you understand small, implicitly satisfied interfaces, you've understood most of what people mean by "idiomatic Go design."
+The view I have ended up with is that most of SOLID does still apply, but in Go it mostly reduces to one feature, the interface. If you understand small, implicitly satisfied interfaces, you have understood most of what people mean when they talk about idiomatic Go design.
 
-## The one rule: accept interfaces, return structs
+## The main rule: accept interfaces, return structs
 
-If you remember one thing, remember this one.
+If there is one thing to take from this, it is this one.
 
 ```go
 // Save accepts an interface, so it writes to anything with a Write
@@ -32,23 +32,23 @@ func NewStore(path string) *Store {
 }
 ```
 
-`Save` asks for the smallest thing it needs, an `io.Writer`, so it works the same in production and in a test without knowing the difference. `NewStore` hands back the real type. Return an interface here and you've decided for the caller what they're allowed to see, usually wrongly. Give them the struct and let them narrow it on their own end if they want to.
+`Save` asks for the smallest thing it needs, an `io.Writer`, so it behaves the same in production and in a test without knowing the difference. `NewStore` returns the concrete type. If you return an interface here, you have decided for the caller what they are allowed to see, which is often not what they want. It is usually better to return the struct and let them narrow it down on their side if they need to.
 
-## SOLID, minus the classes
+## SOLID without the classes
 
-Each principle, with the class machinery stripped out:
+Taken one at a time, with the class machinery removed:
 
-- **Single Responsibility** is really about package cohesion. Name packages for what they do (`net/http`, `os/exec`), not `util` or `common`, which quietly turn into dumping grounds.
-- **Open/Closed** happens through embedding, not inheritance (more below).
-- **Liskov Substitution** is just interfaces. Two types are swappable if the caller can't tell them apart, and in Go a type satisfies an interface implicitly by having the right methods. No `implements` keyword needed.
-- **Interface Segregation** means depend only on the behaviour you use. If you only read, accept an `io.Reader`, not a fat `File` with fifteen methods.
-- **Dependency Inversion** means your logic depends on an interface and the messy concrete thing implements it. Aim for an import graph that's wide and flat, not tall and narrow.
+- **Single Responsibility** is really about package cohesion. Name packages for what they do (`net/http`, `os/exec`) rather than `util` or `common`, which tend to turn into dumping grounds.
+- **Open/Closed** happens through embedding rather than inheritance, which I will come to below.
+- **Liskov Substitution** is basically interfaces. Two types are interchangeable if the caller cannot tell them apart, and in Go a type satisfies an interface implicitly by having the right methods, with no `implements` keyword.
+- **Interface Segregation** means depending only on the behaviour you use. If you only need to read, accept an `io.Reader` rather than a larger `File` type with fifteen methods.
+- **Dependency Inversion** means your logic depends on an interface, and the concrete implementation sits behind it. The aim is an import graph that is wide and flat rather than tall and narrow.
 
-Four of the five are "use a small interface" in different hats. That's not an accident. Go baked the useful part of SOLID into the language and skipped the ceremony.
+Four of the five come down to using a small interface. That is not really a coincidence. Go put the useful part of SOLID into the language and left out most of the ceremony around it.
 
 ## Composition instead of inheritance
 
-The one that trips up people coming from Java is Open/Closed. There's no `extends`, so you embed:
+The one that tends to catch people coming from Java is Open/Closed. There is no `extends`, so you embed instead:
 
 ```go
 type Logger struct{ prefix string }
@@ -61,15 +61,15 @@ type Server struct {
 }
 ```
 
-Because `Logger` is embedded, `Server` gets its `Log` method promoted for free. So `srv.Log("started")` just works, and you never wrote a forwarding method or touched `Logger`'s code. Extended behaviour, original left alone. That's Open/Closed, done with composition.
+Because `Logger` is embedded, `Server` gets its `Log` method promoted, so `srv.Log("started")` works without writing a forwarding method or touching `Logger`'s code. You have extended the behaviour without changing the original, which is what Open/Closed is asking for, done through composition.
 
 ## Conclusion
 
-When I'm weighing up a design in Go, I keep coming back to a few rules:
+When I am thinking about a design in Go, I keep coming back to a few things:
 
-1. Accept interfaces, return structs.
-2. Keep interfaces small, ideally one method. Require no more, promise no less.
-3. Name packages for what they do, and never create a `util`.
-4. Compose with embedding instead of reaching for inheritance you don't have.
+1. Accept interfaces and return structs.
+2. Keep interfaces small, ideally a single method.
+3. Name packages for what they do, and avoid `util`.
+4. Compose with embedding rather than reaching for inheritance that is not there.
 
-SOLID isn't wrong in Go. It's mostly redundant. The language already pushes you toward small interfaces, and small interfaces are most of the game.
+I would not say SOLID is wrong in Go so much as mostly redundant. The language already pushes you towards small interfaces, and small interfaces are most of the point.

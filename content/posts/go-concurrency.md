@@ -5,23 +5,23 @@ author: "Kenan Jasim"
 tags: ["golang", "concurrency"]
 readTime: true
 toc: true
-summary: "Channels, mutexes and atomics all handle concurrency, but they're not interchangeable. Here's how I decide."
-description: "Channels, mutexes and atomics all handle concurrency, but they're not interchangeable. Here's how I decide."
+summary: "A look at when I reach for channels, mutexes or atomics in Go, and why they are not interchangeable."
+description: "A look at when I reach for channels, mutexes or atomics in Go, and why they are not interchangeable."
 ---
 
-The first time I added a goroutine to make something faster, I ran it and got a different answer. Ran it again, different again. Not broken every time, which would be easy to chase, but wrong maybe one run in five. That's a race condition, and it taught me the real lesson of concurrency: the hard part isn't doing things at once, it's doing them at once and still being sure what comes out.
+A while ago I added a goroutine to a piece of code to make it faster, and I started getting a different result each time I ran it. Not on every run, maybe one run in five, which made it harder to track down. It was a race condition, and it is a reasonable illustration of what makes concurrency awkward: the difficult part is not doing several things at once, it is doing several things at once and still being sure of the result.
 
-Go gives you a few tools for this, and picking the right one is most of the battle. Here's the order I reach for them.
+Go gives you a few tools for this, and most of the work is picking the right one. This is roughly the order I reach for them.
 
-## First, concurrency isn't parallelism
+## Concurrency is not the same as parallelism
 
-Parallelism is running things at the same time. Concurrency is designing your program as independent pieces that *could* run at the same time. One is execution, the other is structure. Get the structure right, independent pieces that don't share memory, and handing it more cores becomes a free speedup that never changes the result.
+It is worth separating the two. Parallelism is running things at the same time. Concurrency is structuring a program as independent pieces that *could* run at the same time. One is about execution and the other is about structure. If you get the structure right, so that the independent pieces do not share memory, then giving the program more cores tends to speed it up without changing the result.
 
-The old idea underneath this is Communicating Sequential Processes: write each piece as boring sequential code, and have the pieces talk through channels instead of sharing state. No shared state, nothing to fight over.
+The idea underneath this is Communicating Sequential Processes: write each piece as ordinary sequential code, and have the pieces communicate through channels rather than sharing state. If nothing is shared, there is nothing to fight over.
 
-## Channels: the default
+## Channels are usually the default
 
-A channel is a bucket chain. A sender drops a value in, a receiver takes it out.
+A channel passes a value from one goroutine to another. One side puts a value in, the other takes it out.
 
 ```go
 jobs := make(chan int)
@@ -38,11 +38,11 @@ for j := range jobs {
 }
 ```
 
-The send `jobs <- i` blocks until someone is ready to receive, and the `range` blocks until there's something to take. They meet, hand off one value, and move on. Neither goroutine ever touches the other's memory, so there's nothing to corrupt. The `close` is what lets the `range` loop know when to stop. One trap: sending to a closed channel panics, so only ever close from the sending side.
+The send `jobs <- i` blocks until something is ready to receive, and the `range` blocks until there is something to take. They meet, hand over one value, and carry on. Neither goroutine touches the other's memory, so there is nothing to corrupt. The `close` is how the `range` loop knows when to stop. One thing to watch is that sending on a closed channel panics, so you should only ever close a channel from the sending side.
 
-## select: routing and timeouts
+## select for more than one channel
 
-When you have more than one channel, `select` picks whichever is ready. Its most useful trick is not waiting forever:
+When you have more than one channel, `select` handles whichever is ready. The part I find most useful is that it lets you avoid waiting forever:
 
 ```go
 select {
@@ -53,11 +53,11 @@ case <-time.After(2 * time.Second):
 }
 ```
 
-If a job arrives within two seconds you handle it. If not, `time.After` fires and you move on instead of hanging. That one pattern has saved me from more "why is this stuck" mysteries than anything else.
+If a job arrives within two seconds you handle it, and if it does not, `time.After` fires and you move on instead of blocking. I have used that pattern to deal with a lot of "why is this stuck" situations.
 
-## When channels don't fit: mutexes
+## When channels do not fit: mutexes
 
-Channels are great until you have genuinely shared state, like a cache or a counter that a hundred goroutines all need to bump. Model that with channels and you end up with one goroutine "owning" it while everyone queues to ask it questions, which is just a slow lock in disguise. So use an actual lock:
+Channels work well until you have genuinely shared state, like a cache or a counter that a lot of goroutines all need to update. You can model that with channels, but you tend to end up with one goroutine "owning" the state while everything else queues to talk to it, which is really just a lock with extra steps. In that case it is simpler to use an actual lock:
 
 ```go
 type Counter struct {
@@ -72,11 +72,11 @@ func (c *Counter) Inc() {
 }
 ```
 
-`Lock` says "mine now, everyone wait," and the deferred `Unlock` always releases it, even on a panic. Simple and correct. Just remember a mutex is a queue: the longer you hold it, the longer the line behind you.
+`Lock` takes ownership and makes everything else wait, and the deferred `Unlock` always releases it, including if the function panics. It is worth remembering that a mutex is effectively a queue, so the longer you hold it, the longer everything behind it waits.
 
-## Going lower: atomics
+## Atomics, when even a mutex is too much
 
-For a single integer that's hot enough that even a mutex hurts, there's `sync/atomic`. These map to single CPU instructions, so there's no lock to hold:
+For a single integer that is updated often enough that a mutex becomes a problem, there is `sync/atomic`. These operations map to single CPU instructions, so there is no lock involved:
 
 ```go
 var n int64
@@ -84,14 +84,14 @@ atomic.AddInt64(&n, 1)          // safe increment, no lock
 current := atomic.LoadInt64(&n) // safe read
 ```
 
-This is a scalpel, not a default. It only works on integer types, and yes, you can build a lock out of `atomic.CompareAndSwap` if you enjoy pain. But if you're reaching here, measure first. Most "lock-free" code is a mutex underneath anyway.
+I would treat this as a last resort rather than a default. It only works on integer types, and while you can build more complicated things out of `atomic.CompareAndSwap`, it gets difficult quickly. If you are reaching for atomics, it is worth measuring first, because a lot of "lock-free" code has a mutex underneath it anyway.
 
 ## Conclusion
 
-When I'm deciding, it's basically a ladder:
+When I am deciding which of these to use, I roughly work down a list:
 
-1. Reach for channels first, and use `select` to manage them. They let you avoid shared state entirely.
-2. When you hit genuinely shared state (a cache, a registry, a hot counter), use a mutex.
-3. Drop to atomics only for a single hot integer, and only once you've measured a reason to.
+1. Reach for channels first, and use `select` to coordinate them, so that you avoid shared state where you can.
+2. When you do have genuinely shared state, such as a cache, a registry or a hot counter, use a mutex.
+3. Only drop to atomics for a single hot integer, and only once you have measured a reason to.
 
-Start at the top. You almost never need to go far down.
+Most of the time you do not need to go very far down that list.
