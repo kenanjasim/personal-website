@@ -1,50 +1,50 @@
 ---
-title: 'How do you hand over a call when the tower is moving at 7.5 km/s?'
+title: 'Satellite handover in non-terrestrial networks'
 date: "2026-05-25"
 author: "Kenan Jasim"
 tags: ["ntn", "3gpp", "networking"]
 readTime: true
 toc: true
-summary: "Why satellite handover breaks normal cellular assumptions, and how 3GPP's conditional handover fixes it."
-description: "Why satellite handover breaks normal cellular assumptions, and how 3GPP's conditional handover fixes it."
+summary: "Notes on why satellite handover is harder than the ground version, and how 3GPP's conditional handover deals with it."
+description: "Notes on why satellite handover is harder than the ground version, and how 3GPP's conditional handover deals with it."
 ---
 
-When I started working on non-terrestrial networks, I had a question that felt too dumb to ask. Phones hand over between towers constantly. You drive down the motorway and your phone switches towers without you noticing. So why is doing the same with a satellite a hard enough problem that whole chunks of the 3GPP spec exist for it?
+I have been working on non-terrestrial networks, and satellite handover is one of the parts I have spent a while trying to get my head around. This is roughly what I have understood so far, written up mostly to organise my own thinking, so it is more a set of notes than anything authoritative.
 
-Then it clicked: the tower is moving. Fast. A low-Earth-orbit satellite crosses the sky at about 7.5 km every second. By the time the network notices your signal fading, decides to move you, and sends the command down, the satellite it was reacting to has already gone. Normal handover assumes the network has time to think. Satellites take that assumption away.
+Phones hand over between towers all the time. You drive down the motorway and your phone moves from one tower to the next without you noticing. Doing the same thing with a satellite turns out to be much harder, to the point where there are whole sections of the 3GPP spec about it, and the reason is that the tower is moving, and moving quickly. A satellite in low Earth orbit travels across the sky at roughly 7.5 km per second. By the time the network notices your signal weakening, decides to move you, and sends the command, the satellite it was reacting to has already moved on. Normal handover assumes the network has time to react, and with satellites that assumption does not hold.
 
-## Why the old way breaks
+## Why the usual approach breaks down
 
-Normally your phone reports signal measurements, the network decides a neighbour is better, and it commands the handover in real time. On the ground that's fine. In orbit it falls apart: the signal difference across a cell is often too soft to trigger cleanly, huge numbers of phones need to move at once, and the latency means a "hand over now" command can arrive too late to be useful. So the fix isn't a faster real-time decision. It's to stop making the decision in real time at all.
+Normally your phone reports signal measurements, the network decides that a neighbouring cell is better, and it commands the handover in real time. On the ground this works fine. In orbit it runs into a few problems: the signal difference across a cell is often too gradual to trigger cleanly, a large number of phones may need to move at once, and the latency means a "hand over now" command can arrive too late to be useful. So the fix is not to make the real-time decision faster. It is to stop making the decision in real time at all.
 
 ## Conditional handover: decide early, trigger later
 
-Conditional Handover (CHO), added in 3GPP Release 16, pre-configures the candidate target cells in advance and attaches a condition to each. The network hands that package to your phone and steps back. Your phone watches for the condition and executes the handover itself when it's met. No real-time command needed.
+Conditional Handover (CHO) was added in 3GPP Release 16. Instead of commanding the handover when it is needed, the network configures the candidate target cells in advance and attaches a condition to each one. It hands that package to the phone, and the phone watches for the condition and carries out the handover itself when it is met. No real-time command is needed.
 
-Think of it as leaving instructions instead of micromanaging. "When you reach the roundabout, take the third exit." You don't need to call them at the roundabout.
+It is a bit like leaving instructions in advance rather than directing each step: "when you get to the roundabout, take the third exit." You do not need to be on the phone at the roundabout.
 
-For satellites, Release 17 added two conditions that matter: a distance one and a time one. Which you use depends on how the beam treats the ground.
+For satellites, Release 17 added two conditions that matter here, one based on distance and one based on time. Which one you use depends on how the beam is pointed at the ground.
 
 ## Two kinds of cell
 
-An **Earth Fixed Cell** keeps its coverage pinned to the same patch of ground by steering the beam, like keeping a torch on one paving stone as you walk past. The connection feels stable, but the satellite needs active beam steering to pull it off.
+An **Earth Fixed Cell** keeps its coverage on the same area of ground by steering the beam as the satellite moves. The connection is more stable from the user's point of view, but it needs active beam steering to achieve.
 
-An **Earth Moving Cell** doesn't bother. The beam points straight down and sweeps across the Earth like a spotlight. Simpler hardware, but the footprint is constantly moving over people, so you get frequent handovers.
+An **Earth Moving Cell** does not do this. The beam points straight down and sweeps across the ground as the satellite passes. The hardware is simpler, but the coverage area is always moving, so handovers happen more often.
 
 ## D1: the distance trigger
 
-D1 (`condEventD1`) is for fixed cells. The cell is anchored to the ground and you're moving across it, so the trigger is distance. It fires when you've moved far enough past your serving cell's reference point *and* close enough to the neighbour's. For fixed cells those reference points are the same for every phone in the cell, so the network configures it once for everyone.
+D1 (`condEventD1`) is used with fixed cells. The cell is anchored to the ground and you move across it, so the natural trigger is distance. It fires when you have moved far enough past your serving cell's reference point *and* are close enough to the neighbour's. For fixed cells those reference points are the same for every phone in the cell, so the network can configure it once for everyone.
 
 ## T1: the time trigger
 
-T1 (`condEventT1`) is my favourite, because it leans all the way into "decide early." The network knows where its satellites will be, so it computes the exact window when you should switch, and just tells you. Your phone watches its own clock and switches when the time lands in that window. It's basically a calendar invite: "connect to the next satellite at 14:32:05." No slow round trip that might miss.
+T1 (`condEventT1`) is the one I find most interesting, because it leans fully into deciding early. The network knows where its satellites will be, so it can work out the window during which you should switch and simply tell you. The phone watches its own clock and switches when the time falls in that window. There is no real-time round trip that might arrive late.
 
 ## SIB19: the data that makes it work
 
-None of this works unless your phone knows where the satellites are and what time things happen. That's SIB19, a satellite-specific broadcast added in Release 17. It carries the ephemeris (the satellite's position and path), the epoch time, when the serving cell stops covering you (feeds T1), and the cell's reference location (feeds D1). Pull SIB19 out and the whole thing collapses, because the phone has nothing to check its conditions against.
+None of this works unless the phone knows where the satellites are and when things will happen. That is what SIB19 provides, a satellite-specific broadcast added in Release 17. It carries the ephemeris (the satellite's position and path), the epoch time, the time at which the serving cell stops covering you (which feeds T1), and the cell's reference location (which feeds D1). Without SIB19 the phone has nothing to check its conditions against.
 
 ## Conclusion
 
-The lesson is bigger than satellites. The old answer to "the network can't react fast enough" would have been "react faster." Conditional handover does the opposite: it does the expensive thinking early, when there's time, then hands the phone a dumb rule (a distance, a clock time) to check on its own.
+The thing that stuck with me while reading about this is that the underlying idea is more general than satellites. The usual response to "the network cannot react fast enough" would be to try to react faster. Conditional handover does the opposite. It does the expensive work early, while there is still time, and then gives the phone a simple rule, a distance or a clock time, to check on its own.
 
-When the world moves too fast to respond in the moment, don't respond faster. Decide in advance. And if you want the real detail, it's in 3GPP TS 38.331, which is not light reading.
+If you want the actual detail, it is in 3GPP TS 38.331, though it is not light reading.
